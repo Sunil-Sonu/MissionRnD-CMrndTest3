@@ -49,8 +49,40 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
-
-int get_missing_value(struct node *root,int n){
-    return -1;
+void traversal(struct node *, int,int *);
+int get_missing_value(struct node *root, int n){
+	int sum = 0, i = 1, count = 0, res = 0;
+	if (root == NULL)
+		return -1;
+	else{
+		if (n > 0)
+			sum = (n*(n + 1)) / 2;
+		else
+			sum = ((-n)*((-n) + 1)) / 2;
+		traversal(root, n, &count);
+		res = sum - count;
+		return res;
+	}
+}
+void traversal(struct node *root, int n, int *count)
+{
+	if (root != NULL)
+	{
+		traversal(root->left, n, count);
+		traversal(root->right, n, count);
+		if (n < 0)
+		{
+			if ((root->data) >= n && (root->data) <= 0)
+			{
+				*count = *count + root->data;
+			}
+		}
+		else
+		{
+			if ((root->data) <= n && (root->data) >= 0)
+			{
+				*count = *count + root->data;
+			}
+		}
+	}
 }

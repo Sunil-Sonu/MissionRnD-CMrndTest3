@@ -71,6 +71,50 @@ struct node{
 	struct node *right;
 };
 
+void node_traverse(struct node_dll *, struct node *, int *);
+void inOrder(struct node *, int *);
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	int j = 1, len = 1, len1 = 0;
+	struct node_dll *tra = head;
+	if (head == NULL)
+		return -1;
+	if (root == NULL)
+		return -1;
+	while (tra != NULL)
+	{
+		len1++; tra = tra->next;
+	}
+	inOrder(root,&len);
+	if (len != len1)
+		return 0;
+	node_traverse(head, root, &j);
+	if (j == len)
+		return 1;
+	else
+		return 0;
+}
+void inOrder(struct node *temp, int *len){
+	if (temp != NULL)
+	{
+		inOrder(temp->left, len);
+		len++;
+		inOrder(temp->right, len);
+	}
+}
+void node_traverse(struct node_dll *head, struct node *root, int *j)
+{
+	if (root != NULL)
+	{
+		node_traverse(head, root->left, j);
+		if ((head->data) == (root->data))
+		{
+			j++;
+			head = head->next;
+		}
+		else{
+			j--;
+			head = head->next;
+		}
+		node_traverse(head, root->right, j);
+	}
 }
